@@ -51,7 +51,7 @@ const CryptoJoinPage = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-black via-purple-950 to-black overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-black via-purple-950 to-black overflow-hidden w-full">
       {/* Animated background particles */}
       {particles.map((particle) => (
         <div

